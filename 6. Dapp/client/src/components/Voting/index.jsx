@@ -5,11 +5,12 @@ import NoticeWrongNetwork from "../Voting/NoticeWrongNetwork";
 
 function Demo() {
   const { state } = useEth();
+  console.log('State', state)
 
   const demo =
     <>
       <div className="contract-container">
-        <ContractBtns/>
+        <ContractBtns />
       </div>
     </>;
 

@@ -17,9 +17,13 @@ function EthProvider({ children }) {
       try {
         address = VotingArtifact.networks[networkID].address;
         contract = new web3.eth.Contract(abi, address);
+        console.log('Address', address)
+        console.log('Contract', contract)
       } catch (err) {
         console.error(err);
       }
+      console.log('Dispatching action:', { artifact: VotingArtifact, web3, accounts, networkID, contract });
+
       dispatch({
         type: actions.init,
         data: { artifact: VotingArtifact, web3, accounts, networkID, contract }
@@ -32,7 +36,7 @@ function EthProvider({ children }) {
   useEffect(() => {
     const tryInit = async () => {
       try {
-        init();
+        await init();
       } catch (err) {
         console.error(err);
       }
@@ -109,13 +113,13 @@ function EthProvider({ children }) {
     }
   };
 
-  const tallyVotes = async () => {
-    try {
-      await state.contract.methods.tallyVotes().send({ from: state.accounts[0] });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const tallyVotes = async () => {
+  //   try {
+  //     await state.contract.methods.tallyVotes().send({ from: state.accounts[0] });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   const getResult = async () => {
     try {
@@ -138,7 +142,6 @@ function EthProvider({ children }) {
         startVotingSession,
         vote,
         endVotingSession,
-        tallyVotes,
         getResult
       }}
     >

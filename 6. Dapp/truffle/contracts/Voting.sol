@@ -79,6 +79,12 @@ contract Voting is Ownable {
         return proposalsArray[_id];
     }
 
+    /// @notice Gets all proposals
+    /// @return The number of proposals
+    function getProposalsCount() public view returns (uint) {
+        return proposalsArray.length;
+    }
+
     /// @notice Registers a voter
     /// @param _addr The address of the voter
     function addVoter(address _addr) external onlyOwner {

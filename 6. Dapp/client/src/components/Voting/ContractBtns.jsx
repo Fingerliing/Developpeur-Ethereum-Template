@@ -90,7 +90,7 @@ function ContractBtns() {
   const tallyVotes = async () => {
     try {
       await contract.methods.tallyVotes().send({ from: accounts[0] });
-      
+
       console.log("Votes comptabilisés avec succès. Proposition gagnante :", winningProposal);
     } catch (error) {
       console.error("Erreur lors du comptage des votes :", error);
@@ -138,11 +138,11 @@ function ContractBtns() {
           placeholder="Enter proposal index"
         />
       </div>
-    
+
       <button className="button" onClick={endVotingSession}>Terminer la session de vote</button>
       <button className="button" onClick={tallyVotes}>Comptabiliser les votes</button>
       <button className="button" onClick={viewResults}>Consulter les résultats</button>
-      <p>Résultat de la proposition gagnante : {winningProposal}</p>      
+      <p>Résultat de la proposition gagnante : {winningProposal}</p>
     </div>
   );
 }

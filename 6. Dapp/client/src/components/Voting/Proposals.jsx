@@ -8,11 +8,11 @@ function Proposals() {
   useEffect(() => {
     const getProposals = async () => {
       try {
-        const count = await contract.methods.proposalsCount().call();
+        const count = await contract.methods.getProposalsCount().call();
         const newProposals = [];
 
         for (let i = 0; i < count; i++) {
-          const proposal = await contract.methods.proposals(i).call();
+          const proposal = await contract.methods.getOneProposal(i).call();
           newProposals.push(proposal);
         }
 
@@ -23,21 +23,25 @@ function Proposals() {
     };
 
     getProposals();
-  }, [contract.methods, accounts]);
+
+    contract.events.ProposalRegistered(() => {
+      getProposals();
+    })
+  }, [contract.methods, contract.events, accounts]);
 
   return (
     <div>
-    <h3>Propositions:</h3>
-    {proposals.length > 0 ? (
-      <ul>
-        {proposals.map((proposal) => (
-          <li key={proposal.Id}>{proposal.Description}</li>
-        ))}
-      </ul>
-    ) : (
-      <p>Aucune proposition disponible</p>
-    )}
-  </div>
+      <h3>Propositions:</h3>
+      {proposals.length > 0 ? (
+        <ul>
+          {proposals.map((proposal, i) => (
+            <li key={i}>{proposal.description}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>Aucune proposition disponible</p>
+      )}
+    </div>
   );
 }
 
