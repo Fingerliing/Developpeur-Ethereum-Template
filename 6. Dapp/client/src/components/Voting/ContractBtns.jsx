@@ -50,23 +50,23 @@ function ContractBtns() {
     }
   };
 
-  const listProposals = async () => {
-    try {
-      const proposalsCount = await contract.methods.getProposalsCount().call();
-      const proposals = [];
-      for (let i = 0; i < proposalsCount; i++) {
-        const proposal = await contract.methods.getOneProposal(i).call();
-        proposals.push(proposal);
-      }
-      setProposals(proposals);
-    } catch (error) {
-      console.error('Erreur récupération des propositions :', error);
-    }
-  };
-
   useEffect(() => {
+    const listProposals = async () => {
+      try {
+        const proposalsCount = await contract.methods.getProposalsCount().call();
+        const proposals = [];
+        for (let i = 0; i < proposalsCount; i++) {
+          const proposal = await contract.methods.getOneProposal(i).call();
+          proposals.push(proposal);
+        }
+        setProposals(proposals);
+      } catch (error) {
+        console.error('Erreur récupération des propositions :', error);
+      }
+    };
+  
     listProposals();
-  }, [contract])
+  }, [contract]);
 
   // Mettre fin à la session d'enregistrement des propositions
   const endProposalsRegistration = async () => {
@@ -116,7 +116,7 @@ function ContractBtns() {
   // Consulter les résultats
   const viewResults = async () => {
     try {
-      const winningProposalID = await contract.methods.getWinningProposalId().call();
+      const winningProposalID = await contract.methods.getWinningProposalId().call({ from: voterAddress });
       setWinningProposal(winningProposalID);
       console.log("Proposition gagnante :", winningProposalID);
     } catch (error) {
