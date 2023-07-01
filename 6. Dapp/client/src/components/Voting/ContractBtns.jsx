@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useEth from "../../contexts/EthContext/useEth";
 import Proposals from '../Voting/Proposals';
 
@@ -8,16 +8,23 @@ function ContractBtns() {
   const [voterAddress, setVoterAddress] = useState("");
   const [selectedProposal, setSelectedProposal] = useState("");
   const [winningProposal, setWinningProposal] = useState(0);
+  const [proposals, setProposals] = useState([]);
+
+
 
   // Registering voters inside a whitelist
   const registerVoters = async () => {
+    console.log("Enregistrement des voteurs")
     try {
       await contract.methods.addVoter(voterAddress).send({ from: accounts[0] });
-      console.log("Liste blanche des électeurs enregistrée avec succès.");
+      console.log("Enregistrement de l'adresse avec succès:", voterAddress);
+
     } catch (error) {
       console.error("Erreur lors de l'enregistrement de la liste blanche des électeurs :", error);
     }
   };
+
+
 
   // Démarrer la session d'enregistrement des propositions
   const startProposalsRegistration = async () => {
@@ -36,11 +43,30 @@ function ContractBtns() {
       try {
         await contract.methods.addProposal(desc).send({ from: accounts[0] });
         console.log("Proposition enregistrée avec succès.");
+        setProposals((prevProposals) => [...prevProposals, { description: desc }]);
       } catch (error) {
         console.error("Erreur lors de l'enregistrement de la proposition :", error);
       }
     }
   };
+
+  const listProposals = async () => {
+    try {
+      const proposalsCount = await contract.methods.getProposalsCount().call();
+      const proposals = [];
+      for (let i = 0; i < proposalsCount; i++) {
+        const proposal = await contract.methods.getOneProposal(i).call();
+        proposals.push(proposal);
+      }
+      setProposals(proposals);
+    } catch (error) {
+      console.error('Erreur récupération des propositions :', error);
+    }
+  };
+
+  useEffect(() => {
+    listProposals();
+  }, [contract])
 
   // Mettre fin à la session d'enregistrement des propositions
   const endProposalsRegistration = async () => {
@@ -87,20 +113,10 @@ function ContractBtns() {
     }
   };
 
-  const tallyVotes = async () => {
-    try {
-      await contract.methods.tallyVotes().send({ from: accounts[0] });
-
-      console.log("Votes comptabilisés avec succès. Proposition gagnante :", winningProposal);
-    } catch (error) {
-      console.error("Erreur lors du comptage des votes :", error);
-    }
-  };
-
   // Consulter les résultats
   const viewResults = async () => {
     try {
-      const winningProposalID = await contract.methods.proposals(winningProposal).call();
+      const winningProposalID = await contract.methods.getWinningProposalId().call();
       setWinningProposal(winningProposalID);
       console.log("Proposition gagnante :", winningProposalID);
     } catch (error) {
@@ -124,23 +140,31 @@ function ContractBtns() {
       <button className="button" onClick={startProposalsRegistration}>Démarrer la session d'enregistrement des propositions</button>
       <button className="button" onClick={addProposal}>Enregistrer une proposition</button>
       <div>
-        <Proposals />
+        <Proposals proposals={proposals} />
       </div>
       <button className="button" onClick={endProposalsRegistration}>Terminer la session d'enregistrement des propositions</button>
       <button className="button" onClick={startVotingSession}>Démarrer la session de vote</button>
       <button className="button" onClick={vote}>Voter pour une proposition</button>
       <div id="input">
-        <h4>Voter pour une proposition en indiquant l'index :</h4>
-        <input
+        <h4>Voter pour une proposition en indiquant :</h4>
+        {/* <input
           type="number"
           value={selectedProposal}
           onChange={(e) => setSelectedProposal(e.target.value)}
           placeholder="Enter proposal index"
-        />
+        /> */}
+        <select value={selectedProposal} onChange={(e) => setSelectedProposal(e.target.value)}>
+          <option value="">Choix</option>
+          {proposals.map((proposal, index) => (
+            <option value={index} key={index}>
+              {proposal.description}
+            </option>
+          ))}
+        </select>
       </div>
 
       <button className="button" onClick={endVotingSession}>Terminer la session de vote</button>
-      <button className="button" onClick={tallyVotes}>Comptabiliser les votes</button>
+      {/* <button className="button" onClick={tallyVotes}>Comptabiliser les votes</button> */}
       <button className="button" onClick={viewResults}>Consulter les résultats</button>
       <p>Résultat de la proposition gagnante : {winningProposal}</p>
     </div>

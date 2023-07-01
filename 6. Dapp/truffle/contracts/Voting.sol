@@ -80,7 +80,7 @@ contract Voting is Ownable {
     }
 
     /// @notice Gets all proposals
-    /// @return The number of proposals
+    /// @return Display the proposals
     function getProposalsCount() public view returns (uint) {
         return proposalsArray.length;
     }
@@ -140,6 +140,10 @@ contract Voting is Ownable {
         }
 
         emit Voted(msg.sender, _id);
+    }
+
+    function getWinningProposalId() public view returns (uint) {
+        return winningProposalID;
     }
 
     /// @notice Changes the current workflow status to allow proposal registration

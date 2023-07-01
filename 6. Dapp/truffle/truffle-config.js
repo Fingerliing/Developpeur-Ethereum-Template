@@ -1,17 +1,17 @@
-const HDWalletProvider = require ('@truffle/hdwallet-provider');
+const HDWalletProvider = require('@truffle/hdwallet-provider');
 require('dotenv').config();
 
 module.exports = {
 
   networks: {
     development: {
-    host: "127.0.0.1",     // Localhost (default: none)
-    port: 8545,            // Standard Ethereum port (default: none)
-    network_id: "*",       // Any network (default: none)
-    },  
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
+    },
     sepolia: {
       provider: function () {
-        return new HDWalletProvider({mnemonic:{phrase:`${process.env.MNEMONIC}`}, providerOrUrl:`https://sepolia.infura.io/v3/${process.env.INFURA_ID}`})
+        return new HDWalletProvider({ mnemonic: { phrase: `${process.env.MNEMONIC}` }, providerOrUrl: `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_ID}` })
       },
       network_id: 11155111
     },
