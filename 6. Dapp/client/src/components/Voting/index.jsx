@@ -3,6 +3,8 @@ import ContractBtns from "./ContractBtns";
 import NoticeNoArtifact from "../Voting/NoticeNoArtifact";
 import NoticeWrongNetwork from "../Voting/NoticeWrongNetwork";
 
+
+
 function Demo() {
   const { state } = useEth();
   console.log('State', state)

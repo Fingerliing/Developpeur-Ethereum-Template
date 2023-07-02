@@ -7,7 +7,7 @@ function ContractBtns() {
   const { state: { contract, accounts } } = useEth();
   const [voterAddress, setVoterAddress] = useState("");
   const [selectedProposal, setSelectedProposal] = useState("");
-  const [winningProposal, setWinningProposal] = useState(0);
+  const [winningProposal, setWinningProposal] = useState(null);
   const [proposals, setProposals] = useState([]);
 
 
@@ -64,7 +64,7 @@ function ContractBtns() {
         console.error('Erreur récupération des propositions :', error);
       }
     };
-  
+
     listProposals();
   }, [contract]);
 
@@ -166,7 +166,8 @@ function ContractBtns() {
       <button className="button" onClick={endVotingSession}>Terminer la session de vote</button>
       {/* <button className="button" onClick={tallyVotes}>Comptabiliser les votes</button> */}
       <button className="button" onClick={viewResults}>Consulter les résultats</button>
-      <p>Résultat de la proposition gagnante : {winningProposal}</p>
+      <p>Résultat de la proposition gagnante : {winningProposal !== null && proposals[winningProposal]?.description}
+      </p>
     </div>
   );
 }
