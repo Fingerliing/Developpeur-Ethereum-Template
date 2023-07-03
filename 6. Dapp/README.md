@@ -1,3 +1,9 @@
+# Video
+La vidéo est disponible directement dans le répertoire 6.Dapp
+
+# Lien de l'application déployée
+L'application est disponible à partir du lien dans le fichier Deployement-link qui est dans le répertoire 6.Dapp
+
 # React Truffle Box
 
 This box comes with everything you need to start using Truffle to write, compile, test, and deploy smart contracts, and interact with them from a React app.
