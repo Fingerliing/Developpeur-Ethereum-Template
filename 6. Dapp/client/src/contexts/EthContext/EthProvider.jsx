@@ -113,14 +113,6 @@ function EthProvider({ children }) {
     }
   };
 
-  // const tallyVotes = async () => {
-  //   try {
-  //     await state.contract.methods.tallyVotes().send({ from: state.accounts[0] });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
   const getResult = async () => {
     try {
       const result = await state.contract.methods.getOneProposal(state.contract.winningProposalID()).call();
