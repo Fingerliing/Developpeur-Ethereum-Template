@@ -18822,8 +18822,8 @@
         }
       },
       "links": {},
-      "address": "0x2254f0123e1C7ffD2c623F28eb161abdF5d25a0A",
-      "transactionHash": "0xc0569ec6f05b38e9ac1f3259105d0d191bc90760edea7ac11ff6a487fd37707e"
+      "address": "0x8b4b6E2dc8A5a22212859333B5E9bFe04409e2DD",
+      "transactionHash": "0x9a4e584c86fbfd512b10b5ae6596efdada9fc68f95085b5f231da7374f6e45f3"
     },
     "1687987180345": {
       "events": {},
@@ -19121,7 +19121,7 @@
     }
   },
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-07-03T15:36:12.760Z",
+  "updatedAt": "2023-07-03T20:29:41.724Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "This contract inherits from the Ownable contract from OpenZeppelin",
